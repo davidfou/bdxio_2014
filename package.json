@@ -1,0 +1,21 @@
+{
+  "name": "bdxio_2014",
+  "version": "0.0.0",
+  "description": "",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dfournier/bdxio_2014"
+  },
+  "author": "David Fournier",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dfournier/bdxio_2014/issues"
+  },
+  "homepage": "https://github.com/dfournier/bdxio_2014",
+  "dependencies": {
+    "grunt": "~0.4.5",
+    "grunt-contrib-clean": "~0.6.0",
+    "grunt-contrib-copy": "~0.6.0",
+    "grunt-contrib-concat": "~0.5.0"
+  }
+}
