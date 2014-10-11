@@ -63,8 +63,17 @@ module.exports = (grunt) ->
           dest: "public/assets/img"
         ]
 
+    watch:
+      all:
+        options:
+          atBegin: true
+          livereload: true
+        files: ["src/**/*"]
+        tasks: ["clean", "copy", "concat"]
+
   grunt.loadNpmTasks 'grunt-contrib-clean'
   grunt.loadNpmTasks 'grunt-contrib-copy'
   grunt.loadNpmTasks 'grunt-contrib-concat'
+  grunt.loadNpmTasks 'grunt-contrib-watch'
 
-  grunt.registerTask 'default', ['clean', 'copy', 'concat']
+  grunt.registerTask 'default', ['watch']
