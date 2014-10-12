@@ -6,6 +6,7 @@ module.exports = (grunt) ->
     dir:
       src            : "src/"
       src_javascript : "assets/js/"
+      src_templates  : "assets/templates/"
       src_css        : "assets/css/"
       src_img        : "assets/img/"
       tmp_javascript : "tmp/js/"
@@ -27,6 +28,7 @@ module.exports = (grunt) ->
           "<%= dir.vendor %>marionette/lib/backbone.marionette.js"
           "<%= dir.vendor %>spin.js/spin.js"
           "<%= dir.resources %>spin.jquery.js"
+          "<%= dir.tmp_javascript %>templates.js"
           "<%= dir.tmp_javascript %>apps/config/marionette/regions/dialog.js"
           "<%= dir.tmp_javascript %>app.js"
           "<%= dir.tmp_javascript %>apps/config/storage/localstorage.js"
@@ -92,18 +94,28 @@ module.exports = (grunt) ->
         dest: "<%= dir.tmp_javascript %>"
         ext: '.js'
 
+    jst:
+      compile:
+        options:
+          processName: (name) ->
+            reg = new RegExp("^#{grunt.config("dir.src") + grunt.config("dir.src_templates")}(.*)\.html$")
+            name.match(reg)[1]
+        files:
+          "<%= dir.tmp_javascript %>templates.js" : ["<%= dir.src + dir.src_templates %>**/*.html"]
+
     watch:
       all:
         options:
           atBegin: true
           livereload: true
         files: ["src/**/*"]
-        tasks: ["clean", "coffee", "copy", "concat"]
+        tasks: ["clean", "coffee", "jst", "copy", "concat"]
 
   grunt.loadNpmTasks 'grunt-contrib-clean'
   grunt.loadNpmTasks 'grunt-contrib-copy'
   grunt.loadNpmTasks 'grunt-contrib-concat'
   grunt.loadNpmTasks 'grunt-contrib-watch'
   grunt.loadNpmTasks 'grunt-contrib-coffee'
+  grunt.loadNpmTasks 'grunt-contrib-jst'
 
   grunt.registerTask 'default', ['watch']

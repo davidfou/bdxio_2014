@@ -1,6 +1,6 @@
 ContactManager.module("ContactsApp.List", function(List, ContactManager, Backbone, Marionette, $, _){
   List.Layout = Marionette.LayoutView.extend({
-    template: "#contact-list-layout",
+    template: JST["contact/list/layout"],
 
     regions: {
       panelRegion: "#panel-region",
@@ -9,7 +9,7 @@ ContactManager.module("ContactsApp.List", function(List, ContactManager, Backbon
   });
 
   List.Panel = Marionette.ItemView.extend({
-    template: "#contact-list-panel",
+    template: JST["contact/list/panel"],
 
     triggers: {
       "click button.js-new": "contact:new"
@@ -36,7 +36,7 @@ ContactManager.module("ContactsApp.List", function(List, ContactManager, Backbon
 
   List.Contact = Marionette.ItemView.extend({
     tagName: "tr",
-    template: "#contact-list-item",
+    template: JST["contact/list/item"],
 
     triggers: {
       "click td a.js-show": "contact:show",
@@ -70,7 +70,7 @@ ContactManager.module("ContactsApp.List", function(List, ContactManager, Backbon
   });
 
   var NoContactsView = Marionette.ItemView.extend({
-    template: "#contact-list-none",
+    template: JST["contact/list/none"],
     tagName: "tr",
     className: "alert"
   });
@@ -78,7 +78,7 @@ ContactManager.module("ContactsApp.List", function(List, ContactManager, Backbon
   List.Contacts = Marionette.CompositeView.extend({
     tagName: "table",
     className: "table table-hover",
-    template: "#contact-list",
+    template: JST["contact/list"],
     emptyView: NoContactsView,
     childView: List.Contact,
     childViewContainer: "tbody",
