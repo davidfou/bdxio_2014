@@ -29,30 +29,10 @@ module.exports = (grunt) ->
           "<%= dir.vendor %>spin.js/spin.js"
           "<%= dir.resources %>spin.jquery.js"
           "<%= dir.tmp_javascript %>templates.js"
-          "<%= dir.tmp_javascript %>apps/config/marionette/regions/dialog.js"
-          "<%= dir.tmp_javascript %>app.js"
-          "<%= dir.tmp_javascript %>apps/config/storage/localstorage.js"
-          "<%= dir.tmp_javascript %>entities/common.js"
-          "<%= dir.tmp_javascript %>entities/header.js"
-          "<%= dir.tmp_javascript %>entities/contact.js"
-          "<%= dir.tmp_javascript %>common/views.js"
-          "<%= dir.tmp_javascript %>apps/contacts/contacts_app.js"
-          "<%= dir.tmp_javascript %>apps/contacts/common/views.js"
-          "<%= dir.tmp_javascript %>apps/contacts/list/list_view.js"
-          "<%= dir.tmp_javascript %>apps/contacts/list/list_controller.js"
-          "<%= dir.tmp_javascript %>apps/contacts/show/show_view.js"
-          "<%= dir.tmp_javascript %>apps/contacts/show/show_controller.js"
-          "<%= dir.tmp_javascript %>apps/contacts/edit/edit_view.js"
-          "<%= dir.tmp_javascript %>apps/contacts/edit/edit_controller.js"
-          "<%= dir.tmp_javascript %>apps/contacts/new/new_view.js"
-          "<%= dir.tmp_javascript %>apps/about/about_app.js"
-          "<%= dir.tmp_javascript %>apps/about/show/show_view.js"
-          "<%= dir.tmp_javascript %>apps/about/show/show_controller.js"
-          "<%= dir.tmp_javascript %>apps/header/header_app.js"
-          "<%= dir.tmp_javascript %>apps/header/list/list_view.js"
-          "<%= dir.tmp_javascript %>apps/header/list/list_controller.js"
+          "<%= dir.vendor %>requirejs/require.js"
+          "<%= dir.tmp_javascript %>config.js"
         ]
-        dest: "<%= dir.public + dir.src_javascript %>app.js"
+        dest: "<%= dir.public + dir.src_javascript %>application.js"
 
     copy:
       html:
@@ -94,6 +74,16 @@ module.exports = (grunt) ->
         dest: "<%= dir.tmp_javascript %>"
         ext: '.js'
 
+    transpile:
+      src:
+        type: "amd"
+        files: [
+          expand: true
+          cwd: "<%= dir.tmp_javascript %>"
+          src: ['**/*.js', '!config.js']
+          dest: "<%= dir.public + dir.src_javascript %>"
+        ]
+
     jst:
       compile:
         options:
@@ -109,7 +99,7 @@ module.exports = (grunt) ->
           atBegin: true
           livereload: true
         files: ["src/**/*"]
-        tasks: ["clean", "coffee", "jst", "copy", "concat"]
+        tasks: ["clean", "coffee", "jst", "copy", "transpile", "concat"]
 
   grunt.loadNpmTasks 'grunt-contrib-clean'
   grunt.loadNpmTasks 'grunt-contrib-copy'
@@ -117,5 +107,6 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks 'grunt-contrib-watch'
   grunt.loadNpmTasks 'grunt-contrib-coffee'
   grunt.loadNpmTasks 'grunt-contrib-jst'
+  grunt.loadNpmTasks 'grunt-es6-module-transpiler'
 
   grunt.registerTask 'default', ['watch']
