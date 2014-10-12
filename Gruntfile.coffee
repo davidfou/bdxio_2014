@@ -1,67 +1,94 @@
 module.exports = (grunt) ->
 
   grunt.initConfig
-    clean: ["public"]
+    clean: ["<%= dir.public %>", "<%= dir.tmp_javascript %>"]
+
+    dir:
+      src            : "src/"
+      src_javascript : "assets/js/"
+      src_css        : "assets/css/"
+      src_img        : "assets/img/"
+      tmp_javascript : "tmp/js/"
+      public         : "public/"
 
     concat:
       javascript:
         src: [
-          "src/assets/js/vendor/jquery.js"
-          "src/assets/js/vendor/jquery-ui-1.10.3.js"
-          "src/assets/js/vendor/json2.js"
-          "src/assets/js/vendor/underscore.js"
-          "src/assets/js/vendor/backbone.js"
-          "src/assets/js/vendor/backbone.picky.js"
-          "src/assets/js/vendor/backbone.syphon.js"
-          "src/assets/js/vendor/backbone.localstorage.js"
-          "src/assets/js/vendor/backbone.marionette.js"
-          "src/assets/js/vendor/spin.js"
-          "src/assets/js/vendor/spin.jquery.js"
-          "src/assets/js/apps/config/marionette/regions/dialog.js"
-          "src/assets/js/app.js"
-          "src/assets/js/apps/config/storage/localstorage.js"
-          "src/assets/js/entities/common.js"
-          "src/assets/js/entities/header.js"
-          "src/assets/js/entities/contact.js"
-          "src/assets/js/common/views.js"
-          "src/assets/js/apps/contacts/contacts_app.js"
-          "src/assets/js/apps/contacts/common/views.js"
-          "src/assets/js/apps/contacts/list/list_view.js"
-          "src/assets/js/apps/contacts/list/list_controller.js"
-          "src/assets/js/apps/contacts/show/show_view.js"
-          "src/assets/js/apps/contacts/show/show_controller.js"
-          "src/assets/js/apps/contacts/edit/edit_view.js"
-          "src/assets/js/apps/contacts/edit/edit_controller.js"
-          "src/assets/js/apps/contacts/new/new_view.js"
-          "src/assets/js/apps/about/about_app.js"
-          "src/assets/js/apps/about/show/show_view.js"
-          "src/assets/js/apps/about/show/show_controller.js"
-          "src/assets/js/apps/header/header_app.js"
-          "src/assets/js/apps/header/list/list_view.js"
-          "src/assets/js/apps/header/list/list_controller.js"
+          "<%= dir.tmp_javascript %>vendor/jquery.js"
+          "<%= dir.tmp_javascript %>vendor/jquery-ui-1.10.3.js"
+          "<%= dir.tmp_javascript %>vendor/json2.js"
+          "<%= dir.tmp_javascript %>vendor/underscore.js"
+          "<%= dir.tmp_javascript %>vendor/backbone.js"
+          "<%= dir.tmp_javascript %>vendor/backbone.picky.js"
+          "<%= dir.tmp_javascript %>vendor/backbone.syphon.js"
+          "<%= dir.tmp_javascript %>vendor/backbone.localstorage.js"
+          "<%= dir.tmp_javascript %>vendor/backbone.marionette.js"
+          "<%= dir.tmp_javascript %>vendor/spin.js"
+          "<%= dir.tmp_javascript %>vendor/spin.jquery.js"
+          "<%= dir.tmp_javascript %>apps/config/marionette/regions/dialog.js"
+          "<%= dir.tmp_javascript %>app.js"
+          "<%= dir.tmp_javascript %>apps/config/storage/localstorage.js"
+          "<%= dir.tmp_javascript %>entities/common.js"
+          "<%= dir.tmp_javascript %>entities/header.js"
+          "<%= dir.tmp_javascript %>entities/contact.js"
+          "<%= dir.tmp_javascript %>common/views.js"
+          "<%= dir.tmp_javascript %>apps/contacts/contacts_app.js"
+          "<%= dir.tmp_javascript %>apps/contacts/common/views.js"
+          "<%= dir.tmp_javascript %>apps/contacts/list/list_view.js"
+          "<%= dir.tmp_javascript %>apps/contacts/list/list_controller.js"
+          "<%= dir.tmp_javascript %>apps/contacts/show/show_view.js"
+          "<%= dir.tmp_javascript %>apps/contacts/show/show_controller.js"
+          "<%= dir.tmp_javascript %>apps/contacts/edit/edit_view.js"
+          "<%= dir.tmp_javascript %>apps/contacts/edit/edit_controller.js"
+          "<%= dir.tmp_javascript %>apps/contacts/new/new_view.js"
+          "<%= dir.tmp_javascript %>apps/about/about_app.js"
+          "<%= dir.tmp_javascript %>apps/about/show/show_view.js"
+          "<%= dir.tmp_javascript %>apps/about/show/show_controller.js"
+          "<%= dir.tmp_javascript %>apps/header/header_app.js"
+          "<%= dir.tmp_javascript %>apps/header/list/list_view.js"
+          "<%= dir.tmp_javascript %>apps/header/list/list_controller.js"
         ]
-        dest: "public/assets/js/app.js"
+        dest: "<%= dir.public + dir.src_javascript %>app.js"
 
     copy:
       html:
         files: [
-          src: ["src/index.html"]
-          dest: "public/index.html"
+          expand: true
+          cwd: "<%= dir.src %>"
+          src: ["index.html"]
+          dest: "<%= dir.public %>"
         ]
       css:
         files: [
           expand: true
-          cwd: "src/assets/css/"
+          cwd: "<%= dir.src + dir.src_css %>"
           src: ["**"]
-          dest: "public/assets/css"
+          dest: "<%= dir.public + dir.src_css %>"
         ]
       img:
         files: [
           expand: true
-          cwd: "src/assets/img/"
+          cwd: "<%= dir.src + dir.src_img %>"
           src: ["**"]
-          dest: "public/assets/img"
+          dest: "<%= dir.public + dir.src_img %>"
         ]
+      js:
+        files: [
+          expand: true
+          cwd: "<%= dir.src + dir.src_javascript %>"
+          src: ["**/*.js"]
+          dest: "<%= dir.tmp_javascript %>"
+        ]
+
+    coffee:
+      src:
+        options:
+          bare: true
+        expand: true
+        cwd: "<%= dir.src + dir.src_javascript %>"
+        src: ["**/*.coffee"]
+        dest: "<%= dir.tmp_javascript %>"
+        ext: '.js'
 
     watch:
       all:
@@ -69,11 +96,12 @@ module.exports = (grunt) ->
           atBegin: true
           livereload: true
         files: ["src/**/*"]
-        tasks: ["clean", "copy", "concat"]
+        tasks: ["clean", "coffee", "copy", "concat"]
 
   grunt.loadNpmTasks 'grunt-contrib-clean'
   grunt.loadNpmTasks 'grunt-contrib-copy'
   grunt.loadNpmTasks 'grunt-contrib-concat'
   grunt.loadNpmTasks 'grunt-contrib-watch'
+  grunt.loadNpmTasks 'grunt-contrib-coffee'
 
   grunt.registerTask 'default', ['watch']
