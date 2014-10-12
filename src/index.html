@@ -18,7 +18,12 @@
 
     <div id="dialog-region"></div>
 
+    <!-- @if ENV='development' -->
     <script src="http://localhost:35729/livereload.js"></script>
+    <!-- @endif -->
+    <!-- @if ENV='production' -->
+    <script src="./assets/js/vendor.js"></script>
+    <!-- @endif -->
     <script src="./assets/js/application.js"></script>
   </body>
 </html>

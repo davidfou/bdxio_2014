@@ -3,6 +3,7 @@ module.exports = (grunt) ->
   grunt.initConfig
     clean: ["<%= dir.public %>", "<%= dir.tmp_javascript %>"]
 
+    env: "development"
     dir:
       src            : "src/"
       src_javascript : "assets/js/"
@@ -33,6 +34,23 @@ module.exports = (grunt) ->
           "<%= dir.tmp_javascript %>config.js"
         ]
         dest: "<%= dir.public + dir.src_javascript %>application.js"
+      build:
+        src: [
+          "<%= dir.vendor %>jquery/dist/jquery.js"
+          "<%= dir.vendor %>jquery-ui/jquery-ui.js"
+          "<%= dir.resources %>json2.js"
+          "<%= dir.vendor %>underscore/underscore.js"
+          "<%= dir.vendor %>backbone/backbone.js"
+          "<%= dir.vendor %>backbone.picky/lib/backbone.picky.js"
+          "<%= dir.vendor %>backbone.syphon/lib/backbone.syphon.js"
+          "<%= dir.vendor %>backbone.localstorage/backbone.localstorage.js"
+          "<%= dir.vendor %>marionette/lib/backbone.marionette.js"
+          "<%= dir.vendor %>spin.js/spin.js"
+          "<%= dir.resources %>spin.jquery.js"
+          "<%= dir.tmp_javascript %>templates.js"
+          "<%= dir.vendor %>almond/almond.js"
+        ]
+        dest: "<%= dir.public + dir.src_javascript %>vendor.js"
 
     copy:
       html:
@@ -99,7 +117,29 @@ module.exports = (grunt) ->
           atBegin: true
           livereload: true
         files: ["src/**/*"]
-        tasks: ["clean", "coffee", "jst", "copy", "transpile", "concat"]
+        tasks: ["compile", "concat:javascript"]
+
+    requirejs:
+      compile:
+        options:
+          baseUrl: "<%= dir.public + dir.src_javascript %>"
+          out: '<%= dir.public + dir.src_javascript %>application.js'
+          optimize: "uglify2"
+          cjsTranslate: false
+          generateSourceMaps: true
+          preserveLicenseComments: false
+          name: "main"
+          insertRequire: ['main']
+
+    preprocess:
+      html:
+        options:
+          inline: true
+          context:
+            ENV: "<%= env %>"
+        src: ["<%= dir.public %>index.html"]
+
+
 
   grunt.loadNpmTasks 'grunt-contrib-clean'
   grunt.loadNpmTasks 'grunt-contrib-copy'
@@ -108,5 +148,11 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks 'grunt-contrib-coffee'
   grunt.loadNpmTasks 'grunt-contrib-jst'
   grunt.loadNpmTasks 'grunt-es6-module-transpiler'
+  grunt.loadNpmTasks 'grunt-contrib-requirejs'
+  grunt.loadNpmTasks 'grunt-preprocess'
 
+  grunt.registerTask 'compile', ['clean', 'coffee', 'jst', 'copy', 'transpile', 'preprocess']
   grunt.registerTask 'default', ['watch']
+  grunt.registerTask 'build'  , ->
+    grunt.config 'env', 'production'
+    grunt.task.run ['compile', 'requirejs', 'concat:build']
