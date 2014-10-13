@@ -1,6 +1,8 @@
+`import template from 'templates/contact/list/item'`
+
 class Contact extends Marionette.ItemView
   tagName: "tr"
-  template: JST["contact/list/item"]
+  template: template
 
   triggers:
     "click td a.js-show": "contact:show"

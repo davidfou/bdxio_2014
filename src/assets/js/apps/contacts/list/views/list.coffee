@@ -1,14 +1,16 @@
+`import templateList from 'templates/contact/list'`
+`import templateEmpty from 'templates/contact/list/none'`
 `import ContactView from 'apps/contacts/list/views/item'`
 
 class NoContactsView extends Marionette.ItemView
-  template: JST["contact/list/none"]
+  template: templateEmpty
   tagName: "tr"
   className: "alert"
 
 class ContactsView extends Marionette.CompositeView
   tagName: "table"
   className: "table table-hover"
-  template: JST["contact/list"]
+  template: templateList
   emptyView: NoContactsView
   childView: ContactView
   childViewContainer: "tbody"

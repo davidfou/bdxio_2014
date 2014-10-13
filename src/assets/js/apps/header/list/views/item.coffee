@@ -1,5 +1,7 @@
+`import template from 'templates/header/link'`
+
 class View extends Marionette.ItemView
-  template: JST["header/link"]
+  template: template
   tagName: "li"
 
   events:

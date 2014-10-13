@@ -1,5 +1,7 @@
+`import template from 'templates/contact/show/item'`
+
 class View extends Marionette.ItemView
-  template: JST["contact/show/item"]
+  template: template
 
   events:
     "click a.js-edit": "editClicked"

@@ -1,5 +1,7 @@
+`import template from 'templates/common/loading'`
+
 class LoadingView extends Marionette.ItemView
-  template: JST["common/loading"]
+  template: template
 
   title: "Loading Data"
   message: "Please wait, data is loading."

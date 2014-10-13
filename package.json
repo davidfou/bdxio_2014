@@ -11,6 +11,10 @@
   "bugs": {
     "url": "https://github.com/dfournier/bdxio_2014/issues"
   },
+  "scripts": {
+    "start": "export BROCCOLI_ENV=development && broccoli serve",
+    "build": "export BROCCOLI_ENV=production && grunt clean && broccoli build public && grunt requirejs"
+  },
   "homepage": "https://github.com/dfournier/bdxio_2014",
   "dependencies": {
     "grunt": "~0.4.5",
@@ -22,6 +26,18 @@
     "grunt-contrib-requirejs": "~0.4.4",
     "grunt-contrib-watch": "~0.6.1",
     "grunt-es6-module-transpiler": "~0.6.0",
-    "grunt-preprocess": "4.0.0"
+    "grunt-preprocess": "4.0.0",
+    "lodash": "2.4.1",
+    "broccoli": "0.13.1",
+    "broccoli-env": "0.0.1",
+    "broccoli-filter": "0.1.6",
+    "broccoli-static-compiler": "0.1.4",
+    "broccoli-file-remover": "0.3.1",
+    "broccoli-merge-trees": "0.2.0",
+    "broccoli-concat": "0.0.11",
+    "broccoli-coffee": "0.1.2",
+    "broccoli-es6-module-transpiler": "0.1.1",
+    "eco": "1.0.3",
+    "preprocess": "2.0.0"
   }
 }

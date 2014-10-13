@@ -1,4 +1,6 @@
+`import template from 'templates/contact/show/missing'`
+
 class MissingContact extends Marionette.ItemView
-  template: JST["contact/show/missing"]
+  template: template
 
 `export default MissingContact`

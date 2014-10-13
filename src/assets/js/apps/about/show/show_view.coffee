@@ -1,4 +1,6 @@
+`import template from 'templates/about/message'`
+
 class View extends Marionette.ItemView
-  template: JST["about/message"]
+  template: template
 
 `export default View`

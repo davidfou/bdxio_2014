@@ -1,5 +1,7 @@
+`import template from 'templates/contact/show/edit'`
+
 class FormView extends Marionette.ItemView
-  template: JST["contact/show/edit"]
+  template: template
 
   events:
     "click button.js-submit": "submitClicked"

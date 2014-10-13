@@ -1,5 +1,7 @@
+`import template from 'templates/contact/list/panel'`
+
 class Panel extends Marionette.ItemView
-  template: JST["contact/list/panel"]
+  template: template
 
   triggers:
     "click button.js-new": "contact:new"

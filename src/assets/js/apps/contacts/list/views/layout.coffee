@@ -1,5 +1,7 @@
+`import template from 'templates/contact/list/layout'`
+
 class Layout extends Marionette.LayoutView
-  template: JST["contact/list/layout"]
+  template: template
 
   regions:
     panelRegion: "#panel-region"
